@@ -2,11 +2,12 @@ package Backend.Models.Enums;
 
 public enum SubscriptionType {
     GreenMobilS("GreenMobilS", 500, 0, 8, 0.08 ),
-    GreenMobilM("GreenMobilM", 1000, 100, 22, 0.06 ),
-    GreenMobilL("GreenMobilL", 2000, 150, 42, 0.04 );
+    GreenMobilM("GreenMobilM", 2000, 100, 22, 0.06 ),
+    GreenMobilL("GreenMobilL", 5000, 150, 42, 0.04 );
 
 
     private final String label;
+
     private final int dataVolume;
     private final int freeMinutes;
     private final int fee;

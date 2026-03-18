@@ -1,4 +1,32 @@
 package Backend.Services;
 
+import Backend.Models.Enums.SubscriptionType;
+import Backend.Models.Enums.TerminalType;
+import Backend.Models.User;
+
 public class UserManagementService {
+
+    private static final DataBaseDummy db = new DataBaseDummy();
+
+    public void createUser(int id, long imsi, String firstName, String lastName,
+                           TerminalType terminal, SubscriptionType subscription){
+        User newUser = new User(id, imsi, firstName, lastName, terminal, subscription);
+        // db.put newUser
+        return;
+    }
+
+    public User readUser(int id){
+        // db.get
+        return db.getUser(id);
+    }
+
+
+//    Read
+//
+//    Update
+//
+//    Calculate charges
+//
+//
+//    Delete
 }
