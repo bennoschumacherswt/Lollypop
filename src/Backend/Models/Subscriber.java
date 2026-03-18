@@ -108,7 +108,10 @@ public class Subscriber {
                 callTime += session.getDuration();
             }
         }
-        return this.subscription.getFee() + callTime / this.subscription.getMinuteFee();
+        if(callTime < this.subscription.getFreeMinutes()){
+            return this.subscription.getFee();
+        }
+        return this.subscription.getFee() + (callTime - this.subscription.getFreeMinutes()) / this.subscription.getMinuteFee();
     }
 
     // TODO Read a user out of the database
