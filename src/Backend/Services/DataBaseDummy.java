@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 public class DataBaseDummy {
 
-    public void createUser(int i)
+    public void createUser(int i){
+
+    }
 
     public Subscriber getUser(int id){
         return null;
