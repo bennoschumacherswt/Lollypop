@@ -1,16 +1,14 @@
-package com.matsecom.util;
+package Backend.Utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
- */
 public class DatabaseConnection {
 
     private static final String URL  = System.getProperty(
             "db.url",
-            "jdbc:mysql://localhost:3306/matsecom" +
+            "jdbc:mysql://localhost:3306/lollypop" +
             "?useSSL=false&serverTimezone=Europe/Berlin&allowPublicKeyRetrieval=true");
     private static final String USER = System.getProperty("db.user",     "root");
     private static final String PASS = System.getProperty("db.password", "");

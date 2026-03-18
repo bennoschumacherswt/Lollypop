@@ -1,6 +1,6 @@
 package Backend.Services;
 
-import Backend.Models.User;
+import Backend.Models.Subscriber;
 
 import java.util.ArrayList;
 
@@ -8,11 +8,11 @@ public class DataBaseDummy {
 
     public void createUser(int i)
 
-    public User getUser(int id){
+    public Subscriber getUser(int id){
         return null;
     }
 
-    public ArrayList<User> getUsers(){
+    public ArrayList<Subscriber> getUsers(){
         return new ArrayList<>();
     }
 

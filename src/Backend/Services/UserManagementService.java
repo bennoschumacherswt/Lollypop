@@ -2,7 +2,7 @@ package Backend.Services;
 
 import Backend.Models.Enums.SubscriptionType;
 import Backend.Models.Enums.TerminalType;
-import Backend.Models.User;
+import Backend.Models.Subscriber;
 
 public class UserManagementService {
 
@@ -10,12 +10,12 @@ public class UserManagementService {
 
     public void createUser(int id, long msin, String firstName, String lastName,
                            TerminalType terminal, SubscriptionType subscription){
-        User newUser = new User(id, msin, firstName, lastName, terminal, subscription);
+        Subscriber newUser = new Subscriber(id, msin, firstName, lastName, terminal, subscription);
         // db.put newUser
         return;
     }
 
-    public User readUser(int id){
+    public Subscriber readUser(int id){
         // db.get
         return db.getUser(id);
     }

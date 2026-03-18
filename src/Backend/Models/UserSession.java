@@ -4,6 +4,10 @@ import Backend.Models.Enums.ServiceType;
 
 public class UserSession {
 
+    private int id;
+
+    private int subscriber_id;
+
     /** type of service that is being used */
     private ServiceType service;
 

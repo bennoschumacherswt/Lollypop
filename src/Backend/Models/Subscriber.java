@@ -7,7 +7,7 @@ import Backend.Models.Enums.TerminalType;
 
 import java.util.ArrayList;
 
-public class User {
+public class Subscriber {
 
     /** id to avoid problems with users with same names, primary key in db */
     private int id;
@@ -41,12 +41,12 @@ public class User {
 
 
     /**
-     * constructor for User objects handing over all attributes besides sessions and dataVolume,
+     * constructor for Subscriber objects handing over all attributes besides sessions and dataVolume,
      *  dataVolume is taken out of the subscriptionType enum
      *  sessions is an empty list that gets new sessions added each time the user uses a service
      */
-    public User(int id, long msin, String firstName, String lastName, TerminalType terminal,
-                SubscriptionType subscription){
+    public Subscriber(int id, long msin, String firstName, String lastName, TerminalType terminal,
+                      SubscriptionType subscription){
         this.id = id;
         this.msin = msin;
         this.firstName = firstName;
@@ -115,7 +115,7 @@ public class User {
 
     // TODO Update one of the Users
 
-    // TODO Delete a User out of Database
+    // TODO Delete a Subscriber out of Database
 
     public int getId() {
         return id;
