@@ -59,7 +59,12 @@ public class User {
 
     Update
 
-    Calculate charges
+    public double calculateCharges(){
+        double result = 0;
+        for (UserSession session: sessions){
+            result += session.
+        }
+    }
 
 
     Delete
