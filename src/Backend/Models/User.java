@@ -1,5 +1,6 @@
 package Backend.Models;
 
+import Backend.Models.Enums.ServiceType;
 import Backend.Models.Enums.SubscriptionType;
 import Backend.Models.Enums.TerminalType;
 
@@ -7,10 +8,10 @@ import java.util.ArrayList;
 
 public class User {
 
-    /** id to avoid problems with users with same names */
+    /** id to avoid problems with users with same names, primary key in db */
     private int id;
 
-    /** imsi attribute IMSI (MCC, MNC, 10 digit MSIN) ,  */
+    /** imsi attribute IMSI (MCC, MNC, 10 digit MSIN) */
     private long imsi;
 
     /** first name of the user */
@@ -55,17 +56,26 @@ public class User {
 
     }
 
-            Read
+    //Read
+    public void doDataVolumeSession(UserSession session){
+        if(session.getService().equals(ServiceType.Voice_call)){
+            return;
+        }
+        double usedDataVolume = session.getDuration() * session.getService().getRequiredDataRate() * 0.125;
 
-    Update
+    }
+    //Update
 
     public double calculateCharges(){
-        double result = 0;
+        double callTime = 0;
         for (UserSession session: sessions){
-            result += session.
+            if(session.getService().equals(ServiceType.Voice_call)) {
+                callTime += session.getDuration();
+            }
         }
+        return this.subscription.getFee() + callTime / this.subscription.getMinuteFee();
     }
 
 
-    Delete
+    //Delete
 }
