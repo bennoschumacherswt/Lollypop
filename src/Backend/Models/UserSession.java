@@ -7,6 +7,7 @@ public class UserSession {
     /** type of service that is being used */
     private ServiceType service;
 
+    // TODO check if sessions are measured in seconds or minutes
     /** for how long the service is being used in seconds */
     private int duration;
 
