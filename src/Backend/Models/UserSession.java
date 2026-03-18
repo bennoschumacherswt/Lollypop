@@ -29,4 +29,27 @@ public class UserSession {
         return this.duration;
     }
 
+    public int getSubscriber_id() {
+        return subscriber_id;
+    }
+
+    public void setSubscriber_id(int subscriber_id) {
+        this.subscriber_id = subscriber_id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setService(ServiceType service) {
+        this.service = service;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 }
