@@ -152,9 +152,9 @@ public class SubscriberServiceImpl implements SubscriberService {
         s.getSessions().add(session);
 
         String display = String.format(
-                "[SESSION OK] %s %s | %s | %s | %.1f Mbit/s | %.2f MB used | €%.4f",
+                "[SESSION OK] %s %s | %s | %s | %.1f Mbit/s | %.2f MB used",
                 s.getFirstname(), s.getLastname(),
-                serviceType, tech, achievableRateMbit, usedDataMb, session.getChargesEur());
+                serviceType, tech, achievableRateMbit, usedDataMb);
         System.out.println(display);
         return Optional.of(display);
     }
