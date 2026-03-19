@@ -13,13 +13,16 @@ import java.util.List;
  */
 public enum TerminalType {
 
-    PhairPhone(      List.of(RANTechnologyType.G2, RANTechnologyType.G3)),
-    Pear_aphone_4s(  List.of(RANTechnologyType.G2, RANTechnologyType.G3)),
-    Samsung_S42plus( List.of(RANTechnologyType.G2, RANTechnologyType.G3, RANTechnologyType.G4));
+    PhairPhone(0,      List.of(RANTechnologyType.G2, RANTechnologyType.G3)),
+    Pear_aphone_4s(1,  List.of(RANTechnologyType.G2, RANTechnologyType.G3)),
+    Samsung_S42plus(2, List.of(RANTechnologyType.G2, RANTechnologyType.G3, RANTechnologyType.G4));
+
+    private final int id;
 
     private final List<RANTechnologyType> supportedTechnologies;
 
-    TerminalType(List<RANTechnologyType> supportedTechnologies) {
+    TerminalType(int id, List<RANTechnologyType> supportedTechnologies) {
+        this.id = id;
         this.supportedTechnologies = supportedTechnologies;
     }
 
@@ -36,5 +39,9 @@ public enum TerminalType {
         if (supportedTechnologies.contains(RANTechnologyType.G4)) return RANTechnologyType.G4;
         if (supportedTechnologies.contains(RANTechnologyType.G3)) return RANTechnologyType.G3;
         return null; // 2G only terminal — no data capable
+    }
+
+    public int getId() {
+        return this.id;
     }
 }

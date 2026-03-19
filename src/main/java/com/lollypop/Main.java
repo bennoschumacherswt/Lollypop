@@ -8,6 +8,10 @@ import com.lollypop.model.enums.TerminalType;
 import com.lollypop.service.SubscriberService;
 import com.lollypop.service.UserSessionService;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -59,6 +63,8 @@ public class Main {
                 case "5" -> startSession();
                 case "6" -> listSessions();
                 case "7" -> generateInvoice();
+                case "8" -> importData();
+                case "9" -> exportData();
                 case "0" -> running = false;
                 default  -> System.out.println("  Unknown option, please try again.");
             }
@@ -166,6 +172,57 @@ public class Main {
         }
     }
 
+    private static void importData(){
+        System.out.println("Please enter the name of the input file. \nMake sure the file can be found " +
+                "in the same directory as the jar-file you are using to run the program! " +
+                "\nInput file needs to be a .txt file but pleas provide the name without the type specification");
+        String filename = scanner.nextLine() + ".txt";
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(filename));
+            for(String line: lines){
+                String[] content = line.split(",");
+                TerminalType terminalType;
+                switch (Integer.parseInt(content[3])){
+                    case 0: terminalType = TerminalType.PhairPhone; break;
+                    case 1: terminalType = TerminalType.Pear_aphone_4s; break;
+                    default: terminalType = TerminalType.Samsung_S42plus;
+                }
+                SubscriptionType subscriptionType;
+                switch (Integer.parseInt(content[4])){
+                    case 0: subscriptionType = SubscriptionType.GreenMobilS; break;
+                    case 1: subscriptionType = SubscriptionType.GreenMobilM; break;
+                    default: subscriptionType = SubscriptionType.GreenMobilL;
+                }
+                long msin = Long.parseLong(content[2].substring(content[2].length()-10));
+                subscriberService.addSubscriber(msin, content[0], content[1], terminalType, subscriptionType);
+            }
+            System.out.println("done! non-duplicate data read from " + filename);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void exportData(){
+        System.out.println("Please enter the file name for the output file. \nWill create name.txt afterwards:");
+        String filename = scanner.nextLine() + ".txt";
+        System.out.println(filename + " will be created shortly...");
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+            List<Subscriber> data = subscriberService.getAllSubscribers();
+            for(Subscriber sub: data){
+                // firstname,lastname,IMSI,TerminalType,SubscriptionType
+                writer.append(sub.getFirstname() + "," + sub.getLastname() + "," +
+                        sub.getImsi().substring(0,3) + " " + sub.getImsi().substring(3,5) + " " + sub.getImsi().substring(5)
+                        + "," + sub.getTerminalType().getId() + "," + sub.getSubscriptionType().getId() + "\n");
+            }
+            writer.flush();
+            writer.close();
+            System.out.println("done! " + filename + " created successfully!");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // -------------------------------------------------------------------
     // Input helpers
     // -------------------------------------------------------------------
@@ -181,6 +238,8 @@ public class Main {
                  5  Start session
                  6  List sessions
                  7  Generate invoice
+                 8  Import data from csv-file
+                 9  Export data to csv-file
                  0  Exit
                 ─────────────────────────────────────
                 Choice:\s""");

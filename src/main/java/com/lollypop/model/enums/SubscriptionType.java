@@ -9,9 +9,11 @@ package com.lollypop.model.enums;
 public enum SubscriptionType {
 
     //                        fee    inclMin  pricePerExtraMin  dataMB
-    GreenMobilS(  8.00,    0,   0.08,   500.0),
-    GreenMobilM( 22.00,  100,   0.06,  2048.0),   // 2 GB
-    GreenMobilL( 42.00,  150,   0.04,  5120.0);   // 5 GB
+    GreenMobilS(0,  8.00,    0,   0.08,   500.0),
+    GreenMobilM(1, 22.00,  100,   0.06,  2048.0),   // 2 GB
+    GreenMobilL( 2,42.00,  150,   0.04,  5120.0);   // 5 GB
+
+    private final int id;
 
     /** Monthly base fee in EUR. */
     private final double baseFeeEur;
@@ -25,8 +27,9 @@ public enum SubscriptionType {
     /** Total 3G/4G data volume in MB included per billing period. */
     private final double dataVolumeMb;
 
-    SubscriptionType(double baseFeeEur, int includedMinutes,
+    SubscriptionType(int id,double baseFeeEur, int includedMinutes,
                      double pricePerExtraMinuteEur, double dataVolumeMb) {
+        this.id = id;
         this.baseFeeEur = baseFeeEur;
         this.includedMinutes = includedMinutes;
         this.pricePerExtraMinuteEur = pricePerExtraMinuteEur;
@@ -37,4 +40,7 @@ public enum SubscriptionType {
     public int    getIncludedMinutes()         { return includedMinutes; }
     public double getPricePerExtraMinuteEur()  { return pricePerExtraMinuteEur; }
     public double getDataVolumeMb()            { return dataVolumeMb; }
+    public int getId(){
+        return this.id;
+    }
 }

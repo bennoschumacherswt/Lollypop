@@ -69,7 +69,7 @@ public class SubscriberDAOImpl implements SubscriberDAO {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("SubscriberDAO.create failed: " + e.getMessage(), e);
+            System.out.println("SubscriberDAO.create failed: " + e.getMessage());
         }
     }
 
@@ -84,7 +84,7 @@ public class SubscriberDAOImpl implements SubscriberDAO {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("SubscriberDAO.findById failed: " + e.getMessage(), e);
+            System.out.println("SubscriberDAO.findById failed: " + e.getMessage());
         }
         return Optional.empty();
     }
@@ -99,7 +99,7 @@ public class SubscriberDAOImpl implements SubscriberDAO {
             while (rs.next()) list.add(mapRow(rs));
 
         } catch (SQLException e) {
-            throw new RuntimeException("SubscriberDAO.findAll failed: " + e.getMessage(), e);
+            System.out.println("SubscriberDAO.findAll failed: " + e.getMessage());
         }
         return list;
     }
@@ -118,7 +118,8 @@ public class SubscriberDAOImpl implements SubscriberDAO {
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            throw new RuntimeException("SubscriberDAO.update failed: " + e.getMessage(), e);
+            System.out.println("SubscriberDAO.update failed: " + e.getMessage());
+            return false;
         }
     }
 
@@ -131,7 +132,8 @@ public class SubscriberDAOImpl implements SubscriberDAO {
             return stmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            throw new RuntimeException("SubscriberDAO.delete failed: " + e.getMessage(), e);
+            System.out.println("SubscriberDAO.delete failed: " + e.getMessage());
+            return false;
         }
     }
 
