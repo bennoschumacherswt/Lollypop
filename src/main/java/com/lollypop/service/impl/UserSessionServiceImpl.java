@@ -29,17 +29,18 @@ public class UserSessionServiceImpl implements UserSessionService {
         if (sessions.isEmpty()) return "No sessions recorded.\n";
 
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%-5s %-35s %-12s %-14s %-10s%n",
-                "ID", "Service", "Duration(s)", "DataUsed(MB)", "Charge(€)"));
+        sb.append(String.format("%-5s %-35s %-12s %-14s %n",
+                "ID", "Service", "Duration(s)", "DataUsed(MB)"));
         sb.append("-".repeat(80)).append("\n");
 
         for (UserSession s : sessions) {
-            sb.append(String.format("%-5d %-35s %-12d %-14.2f %-10.4f%n",
+            sb.append(String.format("%-5d %-35s %-12d %-14.2f %n",
                     s.getId(),
                     s.getServiceType().name(),
                     s.getDurationSeconds(),
-                    s.getUsedDataVolumeMb(),
-                    s.getChargesEur()));
+                    s.getUsedDataVolumeMb()
+//                    , s.getChargesEur()
+            ));
         }
         return sb.toString();
     }

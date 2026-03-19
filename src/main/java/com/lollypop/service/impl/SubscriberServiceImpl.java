@@ -59,11 +59,17 @@ public class SubscriberServiceImpl implements SubscriberService {
         requireNonBlank(lastname,  "lastname");
         requireNotNull(terminalType,     "terminalType");
         requireNotNull(subscriptionType, "subscriptionType");
+        if(!s.getSubscriptionType().equals(subscriptionType)){
+            generateInvoice(id);
+        }
 
         s.setFirstname(firstname);
         s.setLastname(lastname);
         s.setTerminalType(terminalType);
         s.setSubscriptionType(subscriptionType);
+        // set data volume to the data volume of the new subscription
+        s.setRemainingDataMb(subscriptionType.getDataVolumeMb());
+
         subscriberDAO.update(s);
     }
 
@@ -201,7 +207,6 @@ public class SubscriberServiceImpl implements SubscriberService {
                 "  Voice charge       : €%.2f%n" +
                 "------------------------------------------------%n" +
                 "Data used            : %.2f MB%n" +
-                "  Data charge        : €%.2f%n" +
                 "------------------------------------------------%n" +
                 "Base fee             : €%.2f%n" +
                 "TOTAL                : €%.2f%n" +
@@ -210,7 +215,7 @@ public class SubscriberServiceImpl implements SubscriberService {
                 s.getImsi(),
                 plan.name(),
                 totalVoiceMinutes, includedMinutes, extraMinutes, voiceChargeEur,
-                totalDataMb, totalDataCharges,
+                totalDataMb,
                 plan.getBaseFeeEur(), totalChargesEur
         );
 

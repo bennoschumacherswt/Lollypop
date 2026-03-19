@@ -13,7 +13,7 @@ public class DatabaseConnection {
 
     private static final String DB_URL   = "jdbc:mysql://localhost:3306/lollypop?useSSL=false&serverTimezone=UTC";
     private static final String USER     = "root";
-    private static final String PASSWORD = "hafid007";
+    private static final String PASSWORD = "test";
 
     private static Connection instance;
 
