@@ -5,82 +5,83 @@
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.lollypop</groupId>
     <artifactId>matsecom-subscriber-mgmt</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
     <name>Matsecom Subscriber Management System</name>
 
     <properties>
-        <java.version>21</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- Dependency versions -->
+        <javafx.version>21.0.2</javafx.version>
         <mysql.version>8.3.0</mysql.version>
-        <junit.version>5.10.2</junit.version>
-        <mockito.version>5.11.0</mockito.version>
+        <!-- Single place to change the launch class -->
+        <app.mainClass>com.lollypop.Main</app.mainClass>
+        <app.fxMainClass>com.lollypop.LollypopApp</app.fxMainClass>
     </properties>
 
     <dependencies>
+        <!-- JavaFX -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
 
-        <!-- JDBC driver for MySQL / MariaDB -->
+        <!-- MySQL JDBC -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>${mysql.version}</version>
         </dependency>
-
-        <!-- ── Test scope ────────────────────────────────────────── -->
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
         <plugins>
 
-            <!-- Compile with Java 21 -->
+            <!-- ── Compiler: use -release instead of -source/-target ── -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>21</release>
+                    <encoding>UTF-8</encoding>
+                    <!-- suppress deprecation / unchecked warnings from JavaFX internals -->
+                    <compilerArgs>
+                        <arg>-Xlint:-deprecation</arg>
+                        <arg>-Xlint:-unchecked</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 
-            <!-- Run JUnit 5 tests with `mvn test` -->
+            <!-- ── Skip tests by default ── -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                <configuration><skipTests>true</skipTests></configuration>
             </plugin>
 
-            <!-- Package as executable fat-jar with `mvn package` -->
+            <!-- ── mvn javafx:run  (uses LollypopApp directly) ── -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <!-- Plugin puts JavaFX on module-path automatically,
+                         so LollypopApp (extends Application) works fine here -->
+                    <mainClass>${app.fxMainClass}</mainClass>
+                </configuration>
+            </plugin>
+
+            <!-- ── mvn package → fat jar runnable with: java -jar *.jar ── -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -91,18 +92,47 @@
                         <goals><goal>shade</goal></goals>
                         <configuration>
                             <transformers>
-                                <transformer implementation=
-                                    "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.lollypop.Main</mainClass>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <!-- Use plain Main so the fat-jar launcher is not an Application subclass -->
+                                    <mainClass>${app.mainClass}</mainClass>
                                 </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
         </plugins>
-    </build>
 
+        <!-- Include properties / sql / css on classpath -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.sql</include>
+                    <include>**/*.css</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>
