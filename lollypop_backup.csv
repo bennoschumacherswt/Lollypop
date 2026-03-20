@@ -1,0 +1,3 @@
+id,firstname,lastname,imsi_mcc,imsi_mnc,imsi_msin,terminal_type,subscription_type,remaining_data_mb
+29,mohamed,hafid,262,42,1123456789,Samsung_S42plus,GreenMobilL,5120.0
+31,huighh,jhvnvnb,262,42,1323232310,PhairPhone,GreenMobilS,500.0
